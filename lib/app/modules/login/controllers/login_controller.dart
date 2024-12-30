@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../home/views/home_view.dart';
 import '../../home_admin/views/home_admin_view.dart';
 
-
 class LoginController extends GetxController {
   var username = ''.obs;
   var password = ''.obs;
@@ -13,13 +12,17 @@ class LoginController extends GetxController {
   Future<void> login() async {
     try {
       // Login dengan Firebase Authentication
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: username.value,
         password: password.value,
       );
 
       // Ambil dokumen pengguna dari Firestore untuk cek role
-      var userDoc = await FirebaseFirestore.instance.collection('users').doc(userCredential.user?.uid).get();
+      var userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .get();
       if (userDoc.exists) {
         String role = userDoc['role'];
 
